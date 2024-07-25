@@ -4,35 +4,17 @@ from PIL import Image
 import os
 
 def main():
-    st.title("PDF to JPG Converter")
+    st.title("앱 네비게이터")
 
     # 사이드바 네비게이션
-    app_selection = st.sidebar.selectbox("Choose an app", ["PDF to JPG Converter", "Phase App"])
+    app_selection = st.sidebar.selectbox("어플 선택", ["PDF to JPG Converter", "Phraise App"])
 
     if app_selection == "PDF to JPG Converter":
         pdf_to_jpg_converter()
-    elif app_selection == "Phase App":
+    elif app_selection == "Phraise App":
         import phraise
-        phraise.run_phase_app()
-
-def pdf_to_jpg_converter():
-    st.header("Convert your PDF files to JPG")
-    pdf_file = st.file_uploader("Choose a PDF file", type=["pdf"])
-    dpi = st.radio("Select DPI", (300, 600))
-
-    if st.button("Convert PDF to JPG"):
-        if pdf_file is not None:
-            # 여기에 PDF를 JPG로 변환하는 로직 추가
-            st.success("PDF converted to JPG successfully!")
-
-    if st.button("Convert PDF to JPG Splitter"):
-        if pdf_file is not None:
-            # 여기에 PDF를 JPG로 분할하는 로직 추가
-            st.success("PDF split into JPGs successfully!")
-
-if __name__ == "__main__":
-    main()
-    
+        phraise.run_phraise_app()
+        
 # 함수 정의
 def convert_pdf_to_jpg(pdf_file, dpi):
     images = convert_from_path(pdf_file, dpi=dpi)
@@ -127,3 +109,9 @@ if st.session_state.image_paths:
 if st.session_state.split_image_paths:
     for split_image_path in st.session_state.split_image_paths:
         st.image(split_image_path)
+
+
+if __name__ == "__main__":
+    main()
+
+
