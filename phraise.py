@@ -97,21 +97,21 @@ show_title_settings = st.checkbox("Show title settings", key="show_title_setting
 # 타이틀 설정 기능
 if show_title_settings:
     st.markdown('<p class="custom-subheader">Title Text Box:</p>', unsafe_allow_html=True)
-    title_text = st.text_input("Title Text", value="", placeholder="Enter title here...", key="title_text")
+    title_text = st.text_input("Title Text", value="", placeholder="Enter title here...", key="title_text_key")
     title_text = clean_text(title_text)
     
     col1, col2 = st.columns(2)
     with col1:
-        title_font = st.text_input("Font for Title Text", value='서울한강 장체 B', key='title_font')
-        title_color = st.color_picker("Font Color for Title Text", value='#FFFFFF', key='title_color')
-        title_alignment = st.radio("Alignment for Title Text", ('Left', 'Center', 'Right'), key='title_alignment')
+        title_font = st.text_input("Font for Title Text", value='서울한강 장체 B', key='title_font_key')
+        title_color = st.color_picker("Font Color for Title Text", value='#FFFFFF', key='title_color_key')
+        title_alignment = st.radio("Alignment for Title Text", ('Left', 'Center', 'Right'), key='title_alignment_key')
         title_align_map = {'Left': PP_ALIGN.LEFT, 'Center': PP_ALIGN.CENTER, 'Right': PP_ALIGN.RIGHT}
-        title_size = st.slider("Font Size for Title Text", 20, 100, 36, key='title_size')
+        title_size = st.slider("Font Size for Title Text", 20, 100, 36, key='title_size_key')
     with col2:
-        title_left = st.number_input("Box Left Position (cm) for Title Text", value=1.55, step=0.1, key='title_left')
-        title_top = st.number_input("Box Top Position (cm) for Title Text", value=1.66, step=0.1, key='title_top')
-        title_width = st.number_input("Box Width (cm) for Title Text", value=30.87, step=0.1, key='title_width')
-        title_height = st.number_input("Box Height (cm) for Title Text", value=1.8, step=0.1, key='title_height')
+        title_left = st.number_input("Box Left Position (cm) for Title Text", value=1.55, step=0.1, key='title_left_key')
+        title_top = st.number_input("Box Top Position (cm) for Title Text", value=1.66, step=0.1, key='title_top_key')
+        title_width = st.number_input("Box Width (cm) for Title Text", value=30.87, step=0.1, key='title_width_key')
+        title_height = st.number_input("Box Height (cm) for Title Text", value=1.8, step=0.1, key='title_height_key')
 
 default_lyrics_color = '#FFFFFF'  # 기본 흰색
 default_english_lyrics_color = '#FFFF00'  # 기본 밝은 노란색
@@ -312,7 +312,7 @@ def generate_preview(text_boxes, fonts, colors, sizes, positions, bg_image, ppt_
     st.pyplot(fig)
 
 
-if st.button("Preview"):
+if st.button("Preview", key="preview_key"):
     generate_preview(
         [text_box_1, text_box_2],
         [font_1, font_2],
