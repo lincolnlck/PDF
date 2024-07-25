@@ -11,16 +11,13 @@ import matplotlib.font_manager as fm
 def run_phraise_app():
     st.title("Phraise App")
     st.header("이곳은 Phraise App 섹션입니다.")
+    
+    title_align_map = {
+        "Left": PP_ALIGN.LEFT,
+        "Center": PP_ALIGN.CENTER,
+        "Right": PP_ALIGN.RIGHT
+    }
 
-
-title_align_map = {
-    "Left": PP_ALIGN.LEFT,
-    "Center": PP_ALIGN.CENTER,
-    "Right": PP_ALIGN.RIGHT
-}
-
-# 페이지 설정
-st.set_page_config(page_title="PPT Lyrics Generator", layout="wide")
 
 # 사용자 정의 CSS 추가
 st.markdown(
