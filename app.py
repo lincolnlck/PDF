@@ -43,7 +43,7 @@ def pdf_to_jpg_converter():
     st.title("PDF to JPG Converter")
 
     uploaded_pdf = st.file_uploader("Choose a PDF file", type="pdf")
-    dpi = st.radio("Select DPI", (300, 600), index=0)
+    dpi = st.radio("Select DPI", (300, 600), index=0, key="dpi_selector")
 
     if 'image_paths' not in st.session_state:
         st.session_state.image_paths = []
@@ -51,8 +51,8 @@ def pdf_to_jpg_converter():
     if 'split_image_paths' not in st.session_state:
         st.session_state.split_image_paths = []
 
-    convert_button = st.button("Convert PDF to JPG")
-    split_button = st.button("Convert PDF to JPG Splitter")
+    convert_button = st.button("Convert PDF to JPG", key="convert_button")
+    split_button = st.button("Convert PDF to JPG Splitter", key="split_button")
 
     if convert_button and uploaded_pdf is not None:
         with open(uploaded_pdf.name, "wb") as f:
@@ -110,7 +110,6 @@ def pdf_to_jpg_converter():
     if st.session_state.split_image_paths:
         for split_image_path in st.session_state.split_image_paths:
             st.image(split_image_path)
-
 
 if __name__ == "__main__":
     main()
