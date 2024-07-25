@@ -40,3 +40,6 @@ tornado==6.4.1
 typing_extensions==4.12.2
 tzdata==2024.1
 urllib3==2.2.2
+matplotlib==3.7.5
+Pillow==10.4.0
+python_pptx==0.6.23
