@@ -3,11 +3,14 @@ from pdf2image import convert_from_path
 from PIL import Image
 import os
 
+# 페이지 설정
+st.set_page_config(page_title="PDF to JPG Converter and Phraise App", layout="wide")
+
 def main():
     st.title("앱 네비게이터")
 
     # 사이드바 네비게이션
-    app_selection = st.sidebar.selectbox("어플 선택", ["PDF to JPG Converter", "Phraise App"])
+    app_selection = st.sidebar.selectbox("어플 선택", ["PDF to JPG Converter", "Phraise App"], key="app_selection")
 
     if app_selection == "PDF to JPG Converter":
         pdf_to_jpg_converter()
@@ -42,8 +45,8 @@ def pdf_to_jpg_converter():
     # Streamlit 인터페이스
     st.title("PDF to JPG Converter")
 
-    uploaded_pdf = st.file_uploader("Choose a PDF file", type="pdf")
-    dpi = st.radio("Select DPI", (300, 600), index=0, key="dpi_selector_main")
+    uploaded_pdf = st.file_uploader("Choose a PDF file", type="pdf", key="uploaded_pdf")
+    dpi = st.radio("Select DPI", (300, 600), index=0, key="dpi_selector")
 
     if 'image_paths' not in st.session_state:
         st.session_state.image_paths = []
@@ -51,8 +54,8 @@ def pdf_to_jpg_converter():
     if 'split_image_paths' not in st.session_state:
         st.session_state.split_image_paths = []
 
-    convert_button = st.button("Convert PDF to JPG", key="convert_button_main")
-    split_button = st.button("Convert PDF to JPG Splitter", key="split_button_main")
+    convert_button = st.button("Convert PDF to JPG", key="convert_button")
+    split_button = st.button("Convert PDF to JPG Splitter", key="split_button")
 
     if convert_button and uploaded_pdf is not None:
         with open(uploaded_pdf.name, "wb") as f:
@@ -107,11 +110,11 @@ def pdf_to_jpg_converter():
     # 이미지 표시
     if st.session_state.image_paths:
         for image_path in st.session_state.image_paths:
-            st.image(image_path)
+            st.image(image_path, key=f"image_{image_path}")
 
     if st.session_state.split_image_paths:
         for split_image_path in st.session_state.split_image_paths:
-            st.image(split_image_path)
+            st.image(split_image_path, key=f"image_{split_image_path}")
 
 if __name__ == "__main__":
     main()
