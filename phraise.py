@@ -11,7 +11,6 @@ import matplotlib.font_manager as fm
 def run_phraise_app():
     st.title("Phraise App")
     st.header("이곳은 Phraise App 섹션입니다.")
-    # Phraise App의 코드 로직을 여기에 추가
 
 
 title_align_map = {
@@ -74,15 +73,15 @@ st.markdown("🎵 This program automatically generates multiple PPT slides accor
 
 # PPT 사이즈 선택
 st.markdown('<p class="custom-subheader">PPT Size</p>', unsafe_allow_html=True)
-ppt_size = st.radio("Select PPT Size", ('16:9', '4:3', 'A4 Landscape', 'A4 Portrait'))
+ppt_size = st.radio("Select PPT Size", ('16:9', '4:3', 'A4 Landscape', 'A4 Portrait'), key="ppt_size")
 
 # 파일 제목 입력 텍스트 박스 추가
 st.markdown('<p class="custom-subheader">Enter the title for your PPT:</p>', unsafe_allow_html=True)
-ppt_title = st.text_input("PPT Title", value="", placeholder="My Presentation")
+ppt_title = st.text_input("Enter the title for the PPT file", key="ppt_title")
 
 # 배경 이미지 입력
 st.markdown('<p class="custom-subheader">Background Upload</p>', unsafe_allow_html=True)
-background_image = st.file_uploader("Upload Background Image", type=["jpg", "png"])
+background_image = st.file_uploader("Upload a background image", type=["png", "jpg", "jpeg"], key="background_image")
 
 # 배경 색상 선택
 st.markdown('<p class="custom-subheader">Background Color</p>', unsafe_allow_html=True)
@@ -93,12 +92,12 @@ def clean_text(text):
     return '\n'.join(line for line in text.splitlines() if line.strip() != "")
 
 # 타이틀 설정 추가 버튼
-show_title_settings = st.checkbox('Add Title')
+show_title_settings = st.checkbox("Show title settings", key="show_title_settings")
 
 # 타이틀 설정 기능
 if show_title_settings:
     st.markdown('<p class="custom-subheader">Title Text Box:</p>', unsafe_allow_html=True)
-    title_text = st.text_input("Title Text", value="", placeholder="Enter title here...")
+    title_text = st.text_input("Title Text", value="", placeholder="Enter title here...", key="title_text")
     title_text = clean_text(title_text)
     
     col1, col2 = st.columns(2)
@@ -124,27 +123,26 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown('<p class="custom-subheader">Text Box 1:</p>', unsafe_allow_html=True)
-    text_box_1 = st.text_area("Lyrics Text Box", height=200, placeholder="Enter lyrics here...")
-    text_box_1 = clean_text(text_box_1)
-    font_1 = st.text_input("Font for Text Box 1", value=default_lyrics_font_name, key='font_1')
-    color_1 = st.color_picker("Font Color for Text Box 1", value=default_lyrics_color, key='color_1')
-    size_1 = st.slider("Font Size for Text Box 1", 20, 100, 60, key='size_1')
-    left_1 = st.number_input("Box Left Position (cm) for Text Box 1", value=0.0, step=0.1, key='left_1')
-    top_1 = st.number_input("Box Top Position (cm) for Text Box 1", value=7.0, step=0.1, key='top_1')
-    width_1 = st.number_input("Box Width (cm) for Text Box 1", value=33.86, step=0.1, key='width_1')
-    height_1 = st.number_input("Box Height (cm) for Text Box 1", value=5.39, step=0.1, key='height_1')
+    text_box_1 = st.text_area("Enter text for the first text box", key="text_box_1")
+    font_1 = st.text_input("Font for Text Box 1", "Arial", key="font_1")
+    color_1 = st.color_picker("Color for Text Box 1", "#000000", key="color_1")
+    size_1 = st.number_input("Font size for Text Box 1", value=24, step=1, key="size_1")
+    left_1 = st.number_input("Left position for Text Box 1 (cm)", value=2.0, step=0.1, key="left_1")
+    top_1 = st.number_input("Top position for Text Box 1 (cm)", value=2.0, step=0.1, key="top_1")
+    width_1 = st.number_input("Width for Text Box 1 (cm)", value=5.0, step=0.1, key="width_1")
+    height_1 = st.number_input("Height for Text Box 1 (cm)", value=2.0, step=0.1, key="height_1")
 
 with col2:
     st.markdown('<p class="custom-subheader">Text Box 2:</p>', unsafe_allow_html=True)
-    text_box_2 = st.text_area("English Translation Text Box", height=200, placeholder="Enter English translation here...")
-    text_box_2 = clean_text(text_box_2)
-    font_2 = st.text_input("Font for Text Box 2", value=default_english_font_name, key='font_2')
-    color_2 = st.color_picker("Font Color for Text Box 2", value=default_english_lyrics_color, key='color_2')
-    size_2 = st.slider("Font Size for Text Box 2", 20, 100, 48, key='size_2')
-    left_2 = st.number_input("Box Left Position (cm) for Text Box 2", value=0.0, step=0.1, key='left_2')
-    top_2 = st.number_input("Box Top Position (cm) for Text Box 2", value=13.1, step=0.1, key='top_2')
-    width_2 = st.number_input("Box Width (cm) for Text Box 2", value=33.86, step=0.1, key='width_2')
-    height_2 = st.number_input("Box Height (cm) for Text Box 2", value=3.68, step=0.1, key='height_2')
+    text_box_2 = st.text_area("Enter text for the second text box", key="text_box_2")
+    font_2 = st.text_input("Font for Text Box 2", "Arial", key="font_2")
+    color_2 = st.color_picker("Color for Text Box 2", "#000000", key="color_2")
+    size_2 = st.number_input("Font size for Text Box 2", value=24, step=1, key="size_2")
+    left_2 = st.number_input("Left position for Text Box 2 (cm)", value=2.0, step=0.1, key="left_2")
+    top_2 = st.number_input("Top position for Text Box 2 (cm)", value=2.0, step=0.1, key="top_2")
+    width_2 = st.number_input("Width for Text Box 2 (cm)", value=5.0, step=0.1, key="width_2")
+    height_2 = st.number_input("Height for Text Box 2 (cm)", value=2.0, step=0.1, key="height_2")
+
 
 def hex_to_rgb(hex):
     return tuple(int(hex[i:i+2], 16) for i in (1, 3, 5))
@@ -338,7 +336,7 @@ if st.button("Preview"):
         background_color
     )
 
-if st.button("Generate PPT"):
+if st.button("Generate PPT", key="generate_ppt"):
     if background_image:
         background_image = Image.open(background_image)
         compressed_bg_image = compress_image(background_image, max_size_kb=1024)  # 최대 1MB로 압축
@@ -369,7 +367,7 @@ if st.button("Generate PPT"):
     ppt_buffer = io.BytesIO()
     prs.save(ppt_buffer)
     ppt_buffer.seek(0)
-    st.download_button("Download PPT", ppt_buffer, file_name=f"{ppt_title}.pptx")
+    st.download_button("Download PPT", ppt_buffer, file_name=f"{ppt_title}.pptx", key="download_ppt")
 
 
 if __name__ == "__main__":
