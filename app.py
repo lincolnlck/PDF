@@ -18,31 +18,8 @@ def main():
         import phraise
         phraise.run_phraise_app()
 
-# 함수 정의
-def convert_pdf_to_jpg(pdf_file, dpi):
-    images = convert_from_path(pdf_file, dpi=dpi)
-    image_paths = []
-    base_name = os.path.splitext(os.path.basename(pdf_file))[0]
-    for i, image in enumerate(images):
-        image_path = f"{base_name}_{i+1}.jpg"
-        image.save(image_path, 'JPEG')
-        image_paths.append(image_path)
-    return image_paths
-
-def split_jpg(image_path):
-    image = Image.open(image_path)
-    width, height = image.size
-    base_name = os.path.splitext(image_path)[0]
-    left_path = f"{base_name}_left.jpg"
-    right_path = f"{base_name}_right.jpg"
-    left = image.crop((0, 0, width // 2, height))
-    right = image.crop((width // 2, 0, width, height))
-    left.save(left_path, 'JPEG')
-    right.save(right_path, 'JPEG')
-    return left_path, right_path
-
+# PDF to JPG 변환기
 def pdf_to_jpg_converter():
-    # Streamlit 인터페이스
     st.title("PDF to JPG Converter")
 
     uploaded_pdf = st.file_uploader("Choose a PDF file", type="pdf", key="uploaded_pdf")
@@ -61,25 +38,29 @@ def pdf_to_jpg_converter():
         with open(uploaded_pdf.name, "wb") as f:
             f.write(uploaded_pdf.getbuffer())
         st.success(f"PDF uploaded: {uploaded_pdf.name}")
-        st.session_state.image_paths = convert_pdf_to_jpg(uploaded_pdf.name, dpi)
-        st.session_state.split_image_paths = []
-        st.success("PDF has been converted to JPG")
+        try:
+            st.session_state.image_paths = convert_pdf_to_jpg(uploaded_pdf.name, dpi)
+            st.session_state.split_image_paths = []
+            st.success("PDF has been converted to JPG")
+        except Exception as e:
+            st.error(f"Error during conversion: {e}")
 
     if split_button and uploaded_pdf is not None:
         with open(uploaded_pdf.name, "wb") as f:
             f.write(uploaded_pdf.getbuffer())
         st.success(f"PDF uploaded: {uploaded_pdf.name}")
-        st.session_state.image_paths = []
-        st.session_state.split_image_paths = []
+        try:
+            st.session_state.image_paths = []
+            st.session_state.split_image_paths = []
 
-        # Convert PDF to JPG and split, but only keep split images
-        temp_image_paths = convert_pdf_to_jpg(uploaded_pdf.name, dpi)
-        for image_path in temp_image_paths:
-            left_path, right_path = split_jpg(image_path)
-            st.session_state.split_image_paths.extend([left_path, right_path])
-            os.remove(image_path)  # Remove the non-split image after splitting
-
-        st.success("PDF has been converted to JPG and split")
+            temp_image_paths = convert_pdf_to_jpg(uploaded_pdf.name, dpi)
+            for image_path in temp_image_paths:
+                left_path, right_path = split_jpg(image_path)
+                st.session_state.split_image_paths.extend([left_path, right_path])
+                os.remove(image_path)
+            st.success("PDF has been converted to JPG and split")
+        except Exception as e:
+            st.error(f"Error during split conversion: {e}")
 
     # 다운로드 버튼 생성
     if st.session_state.image_paths or st.session_state.split_image_paths:
@@ -115,6 +96,33 @@ def pdf_to_jpg_converter():
     if st.session_state.split_image_paths:
         for split_image_path in st.session_state.split_image_paths:
             st.image(split_image_path, key=f"image_{split_image_path}")
+
+def convert_pdf_to_jpg(pdf_file, dpi):
+    try:
+        images = convert_from_path(pdf_file, dpi=dpi)
+    except Exception as e:
+        st.error(f"Error converting PDF to images: {e}")
+        return []
+
+    image_paths = []
+    base_name = os.path.splitext(os.path.basename(pdf_file))[0]
+    for i, image in enumerate(images):
+        image_path = f"{base_name}_{i+1}.jpg"
+        image.save(image_path, 'JPEG')
+        image_paths.append(image_path)
+    return image_paths
+
+def split_jpg(image_path):
+    image = Image.open(image_path)
+    width, height = image.size
+    base_name = os.path.splitext(image_path)[0]
+    left_path = f"{base_name}_left.jpg"
+    right_path = f"{base_name}_right.jpg"
+    left = image.crop((0, 0, width // 2, height))
+    right = image.crop((width // 2, 0, width, height))
+    left.save(left_path, 'JPEG')
+    right.save(right_path, 'JPEG')
+    return left_path, right_path
 
 if __name__ == "__main__":
     main()
